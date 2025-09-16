@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>検索結果 | 狭間書房</title>
-  <style>
+   <style>
     body {
       background-color: #111;
       color: #f5f5f5;
@@ -17,43 +17,41 @@
     }
     .result-info {
       text-align: center;
-      margin-bottom: 1.5em;
+      margin-bottom: 2em;
       font-size: 1.1em;
+    }
+    .result-list {
+      max-width: 700px;
+      margin: 0 auto;
     }
     .result-item {
-      margin: 0.8em auto;
-      padding: 1em;
-      border: 1px solid #444;
-      border-radius: 6px;
-      max-width: 600px;
-      background-color: #1a1a1a;
-      text-align: center;
+      margin: 1em 0;
+      padding: 0.5em 0;
+      border-bottom: 1px solid #333;
+      text-align: left; /* 左詰め */
     }
-    .result-button {
-      display: inline-block;
-      padding: 0.8em 1.2em;
-      font-size: 1.1em;
-      color: #fff;
-      background: #222;
-      border: 1px solid #555;
-      border-radius: 6px;
-      cursor: pointer;
+    .result-item a {
+      color: #fff; /* 白色 */
+      text-decoration: none;
+      font-size: 1.2em;
+      font-family: "Hiragino Mincho ProN", "MS Mincho", serif; /* 明朝体 */
+      padding: 0.3em 0;
+      display: inline-block; /* クリック範囲を広げる */
     }
-    .result-button:hover {
-      background: #161616;
-      color: #32a9cd;
-      border-color: #32a9cd;
+    .result-item a:hover {
+      color: #32a9cd; /* ホバー時にアクセントカラー */
+      text-decoration: underline;
     }
     .no-result {
       text-align: center;
-      color: #ddd;
       margin-top: 2em;
       font-size: 1.05em;
+      color: #ddd;
     }
   </style>
 </head>
 <body>
-  <h1>検索結果2</h1>
+  <h1>検索結果3</h1>
   <div id="result" class="result-info"></div>
 
   <script>
