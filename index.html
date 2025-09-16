@@ -17,35 +17,47 @@
     }
     .result-info {
       text-align: center;
-      margin-bottom: 2em;
-      font-size: 1.2em;
+      margin-bottom: 1.5em;
+      font-size: 1.1em;
     }
     .result-item {
-      margin: 1em auto;
+      margin: 0.8em auto;
       padding: 1em;
       border: 1px solid #444;
       border-radius: 6px;
       max-width: 600px;
       background-color: #1a1a1a;
-    }
-    .result-item a {
-      display: block;
-      color: #fff;
-      text-decoration: none;
-      font-size: 1.3em;
       text-align: center;
     }
-    .result-item a:hover {
+    .result-button {
+      display: inline-block;
+      padding: 0.8em 1.2em;
+      font-size: 1.1em;
+      color: #fff;
+      background: #222;
+      border: 1px solid #555;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .result-button:hover {
+      background: #161616;
       color: #32a9cd;
+      border-color: #32a9cd;
+    }
+    .no-result {
+      text-align: center;
+      color: #ddd;
+      margin-top: 2em;
+      font-size: 1.05em;
     }
   </style>
 </head>
 <body>
-  <h1>検索結果1</h1>
+  <h1>検索結果2</h1>
   <div id="result" class="result-info"></div>
 
   <script>
-    // 🔹 検索対象データ
+    // --- 検索対象データ（name は表示名、url は遷移先） ---
     const pages = [
       { name: "社員名簿", url: "https://hazamashobo.github.io/meibo2/index.html" },
       { name: "マイページ", url: "https://hazamashobo.github.io/mypage/index.html" },
@@ -64,30 +76,61 @@
       { name: "堀北大樹", url: "https://hazamashobo.github.io/horikita/index.html" }
     ];
 
-    // 🔹 URLパラメータから検索ワードを取得
+    // --- クエリパラメータから q を取得（例: ?q=桐須瑛人） ---
     const params = new URLSearchParams(window.location.search);
-    const query = params.get("q")?.trim() || "";
+    const rawQuery = params.get("q") || "";
+    const query = rawQuery.trim();
 
     const resultDiv = document.getElementById("result");
 
+    // 正規化関数：前後trimming+半角全角スペースを全部取り除く
+    function normalizeForCompare(s) {
+      if (!s) return "";
+      // \s は半角スペースや改行等、\u3000 は全角スペース
+      return s.replace(/[\s\u3000]/g, "");
+    }
+
     if (!query) {
-      resultDiv.innerHTML = "検索キーワードを入力してください。";
+      resultDiv.textContent = "検索キーワードを入力してください。";
     } else {
-      // 部分一致で検索（大文字小文字区別なし）
-      const hits = pages.filter(p => p.name.includes(query));
+      const normalizedQuery = normalizeForCompare(query);
+
+      // 完全一致（内部では正規化して比較）
+      const hits = pages.filter(p => normalizeForCompare(p.name) === normalizedQuery);
 
       if (hits.length > 0) {
         resultDiv.innerHTML = `${hits.length}件ヒットしました。`;
+        // 結果表示領域に1件ずつボタンを作る
         hits.forEach(p => {
-          const div = document.createElement("div");
-          div.className = "result-item";
-          div.innerHTML = `<a href="${p.url}">${p.name}_個人情報</a>`;
-          document.body.appendChild(div);
+          const item = document.createElement("div");
+          item.className = "result-item";
+
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "result-button";
+          btn.textContent = `${p.name}_個人情報`;
+
+          // クリックで遷移
+          btn.addEventListener("click", () => {
+            // 相対パス or 絶対URLどちらでもOK
+            window.location.href = p.url;
+          });
+
+          item.appendChild(btn);
+          resultDiv.insertAdjacentElement("afterend", item); // 表示順が自然になるように resultDiv の下に追加
         });
       } else {
-        resultDiv.innerHTML = "データが見つかりません。キーワードを変えてお試しください。";
+        // ヒット無し
+        resultDiv.textContent = "データが見つかりません。キーワードを変えてお試しください。";
       }
     }
+
+    // デバッグ用（必要なら開発者ツールで確認）
+    // console.log("rawQuery:", rawQuery, "normalizedQuery:", normalizeForCompare(rawQuery));
+    // console.log("pages normalized:", pages.map(p=>({n:p.name, nn:normalizeForCompare(p.name)})));
   </script>
+</body>
+</html>
+
 </body>
 </html>
