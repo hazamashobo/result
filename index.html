@@ -28,18 +28,18 @@
       margin: 1em 0;
       padding: 0.5em 0;
       border-bottom: 1px solid #333;
-      text-align: left; /* 左詰め */
+      text-align: left;
     }
     .result-item a {
-      color: #fff; /* 白色 */
+      color: #fff;
       text-decoration: none;
       font-size: 1.2em;
-      font-family: "Hiragino Mincho ProN", "MS Mincho", serif; /* 明朝体 */
+      font-family: "Hiragino Mincho ProN", "MS Mincho", serif;
       padding: 0.3em 0;
-      display: inline-block; /* クリック範囲を広げる */
+      display: inline-block;
     }
     .result-item a:hover {
-      color: #32a9cd; /* ホバー時にアクセントカラー */
+      color: #32a9cd;
       text-decoration: underline;
     }
     .no-result {
@@ -51,29 +51,31 @@
   </style>
 </head>
 <body>
-  <h1>検索結果4</h1>
+  <h1>検索結果5</h1>
   <div id="result" class="result-info"></div>
   <div id="resultList" class="result-list"></div>
 
   <script>
+    // 🔹 検索対象データ
     const pages = [
       { name: "社員名簿", url: "https://hazamashobo.github.io/meibo2/index.html" },
       { name: "マイページ", url: "https://hazamashobo.github.io/mypage/index.html" },
-      { name: "桐須瑛人", url: "https://hazamashobo.github.io/kirisu/index.html" },
-      { name: "薮翔子", url: "https://hazamashobo.github.io/yabu/index.html" },
-      { name: "安藤玲香", url: "https://hazamashobo.github.io/ando/index.html" },
-      { name: "立城純平", url: "https://hazamashobo.github.io/tateshiro/index.html" },
-      { name: "佐久間大晴", url: "https://hazamashobo.github.io/sakuma/index.html" },
-      { name: "鳥羽舞", url: "https://hazamashobo.github.io/toba/index.html" },
-      { name: "大渕航也", url: "https://hazamashobo.github.io/obuti/index.html" },
-      { name: "外山昴", url: "https://hazamashobo.github.io/toyama/index.html" },
-      { name: "福井里帆", url: "https://hazamashobo.github.io/hukui/index.html" },
-      { name: "赤羽義人", url: "https://hazamashobo.github.io/akahane/index.html" },
-      { name: "湯田伊織", url: "https://hazamashobo.github.io/yuda/index.html" },
-      { name: "下野凛", url: "https://hazamashobo.github.io/shimono/index.html" },
-      { name: "堀北大樹", url: "https://hazamashobo.github.io/horikita/index.html" }
+      { name: "桐須瑛人_個人情報", url: "https://hazamashobo.github.io/kirisu/index.html" },
+      { name: "薮翔子_個人情報", url: "https://hazamashobo.github.io/yabu/index.html" },
+      { name: "安藤玲香_個人情報", url: "https://hazamashobo.github.io/ando/index.html" },
+      { name: "立城純平_個人情報", url: "https://hazamashobo.github.io/tateshiro/index.html" },
+      { name: "佐久間大晴_個人情報", url: "https://hazamashobo.github.io/sakuma/index.html" },
+      { name: "鳥羽舞_個人情報", url: "https://hazamashobo.github.io/toba/index.html" },
+      { name: "大渕航也_個人情報", url: "https://hazamashobo.github.io/obuti/index.html" },
+      { name: "外山昴_個人情報", url: "https://hazamashobo.github.io/toyama/index.html" },
+      { name: "福井里帆_個人情報", url: "https://hazamashobo.github.io/hukui/index.html" },
+      { name: "赤羽義人_個人情報", url: "https://hazamashobo.github.io/akahane/index.html" },
+      { name: "湯田伊織_個人情報", url: "https://hazamashobo.github.io/yuda/index.html" },
+      { name: "下野凛_個人情報", url: "https://hazamashobo.github.io/shimono/index.html" },
+      { name: "堀北大樹_個人情報", url: "https://hazamashobo.github.io/horikita/index.html" }
     ];
 
+    // 🔹 クエリパラメータ取得
     const params = new URLSearchParams(window.location.search);
     const rawQuery = params.get("q") || "";
     const query = rawQuery.trim();
@@ -89,14 +91,23 @@
       resultDiv.textContent = "検索キーワードを入力してください。";
     } else {
       const normalizedQuery = normalizeForCompare(query);
-      const hits = pages.filter(p => normalizeForCompare(p.name) === normalizedQuery);
+
+      let hits = pages.filter(p => normalizeForCompare(p.name) === normalizedQuery);
+
+      // 特例：「福井里帆」の場合は2件ヒットさせる
+      if (normalizedQuery === "福井里帆") {
+        hits = [
+          { name: "福井里帆_個人情報", url: "https://hazamashobo.github.io/hukui/index.html" },
+          { name: "マイページについて", url: "https://hazamashobo.github.io/mypage/index.html" }
+        ];
+      }
 
       if (hits.length > 0) {
         resultDiv.innerHTML = `${hits.length}件ヒットしました。`;
         hits.forEach(p => {
           const div = document.createElement("div");
           div.className = "result-item";
-          div.innerHTML = `<a href="${p.url}">${p.name}_個人情報</a>`;
+          div.innerHTML = `<a href="${p.url}">${p.name}</a>`;
           resultList.appendChild(div);
         });
       } else {
@@ -106,3 +117,4 @@
   </script>
 </body>
 </html>
+
