@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>検索結果 | 狭間書房</title>
-   <style>
+  <style>
     body {
       background-color: #111;
       color: #f5f5f5;
@@ -51,11 +51,11 @@
   </style>
 </head>
 <body>
-  <h1>検索結果3</h1>
+  <h1>検索結果4</h1>
   <div id="result" class="result-info"></div>
+  <div id="resultList" class="result-list"></div>
 
   <script>
-    // --- 検索対象データ（name は表示名、url は遷移先） ---
     const pages = [
       { name: "社員名簿", url: "https://hazamashobo.github.io/meibo2/index.html" },
       { name: "マイページ", url: "https://hazamashobo.github.io/mypage/index.html" },
@@ -74,61 +74,35 @@
       { name: "堀北大樹", url: "https://hazamashobo.github.io/horikita/index.html" }
     ];
 
-    // --- クエリパラメータから q を取得（例: ?q=桐須瑛人） ---
     const params = new URLSearchParams(window.location.search);
     const rawQuery = params.get("q") || "";
     const query = rawQuery.trim();
 
-    const resultDiv = document.getElementById("result");
-
-    // 正規化関数：前後trimming+半角全角スペースを全部取り除く
     function normalizeForCompare(s) {
-      if (!s) return "";
-      // \s は半角スペースや改行等、\u3000 は全角スペース
       return s.replace(/[\s\u3000]/g, "");
     }
+
+    const resultDiv = document.getElementById("result");
+    const resultList = document.getElementById("resultList");
 
     if (!query) {
       resultDiv.textContent = "検索キーワードを入力してください。";
     } else {
       const normalizedQuery = normalizeForCompare(query);
-
-      // 完全一致（内部では正規化して比較）
       const hits = pages.filter(p => normalizeForCompare(p.name) === normalizedQuery);
 
       if (hits.length > 0) {
         resultDiv.innerHTML = `${hits.length}件ヒットしました。`;
-        // 結果表示領域に1件ずつボタンを作る
         hits.forEach(p => {
-          const item = document.createElement("div");
-          item.className = "result-item";
-
-          const btn = document.createElement("button");
-          btn.type = "button";
-          btn.className = "result-button";
-          btn.textContent = `${p.name}_個人情報`;
-
-          // クリックで遷移
-          btn.addEventListener("click", () => {
-            // 相対パス or 絶対URLどちらでもOK
-            window.location.href = p.url;
-          });
-
-          item.appendChild(btn);
-          resultDiv.insertAdjacentElement("afterend", item); // 表示順が自然になるように resultDiv の下に追加
+          const div = document.createElement("div");
+          div.className = "result-item";
+          div.innerHTML = `<a href="${p.url}">${p.name}_個人情報</a>`;
+          resultList.appendChild(div);
         });
       } else {
-        // ヒット無し
         resultDiv.textContent = "データが見つかりません。キーワードを変えてお試しください。";
       }
     }
-
-    // デバッグ用（必要なら開発者ツールで確認）
-    // console.log("rawQuery:", rawQuery, "normalizedQuery:", normalizeForCompare(rawQuery));
-    // console.log("pages normalized:", pages.map(p=>({n:p.name, nn:normalizeForCompare(p.name)})));
   </script>
-</body>
-</html>
-
 </body>
 </html>
