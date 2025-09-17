@@ -79,7 +79,7 @@ header h1 {
   background-color: #001f33;
 }
 
-/* ナビゲーション（下に移動） */
+/* ナビゲーション（ヘッダー直下に配置） */
 nav {
   text-align: center;
   padding: 1em 0;
@@ -104,7 +104,7 @@ nav a:hover {
 .result-list {
   max-width: 700px;
   margin: 0 auto;
-  text-align: left; /* 左寄せ */
+  text-align: left;
 }
 .result-item {
   margin: 1em 0;
@@ -147,13 +147,7 @@ footer {
     </div>
   </header>
 
-  <main>
-    <h1>検索結果</h1>
-    <div id="result" class="result-info"></div>
-    <div id="resultList" class="result-list"></div>
-  </main>
-
-  <!-- ナビゲーションを下に移動 -->
+  <!-- ナビゲーションをヘッダーの直下へ -->
   <nav>
     <a href="https://hazamashobo.github.io/main/index.html">ホーム</a>
     <a href="https://hazamashobo.github.io/company/index.html">狭間書房について</a>
@@ -161,12 +155,76 @@ footer {
     <a href="https://hazamashobo.github.io/contact/index.html" class="active">お問い合わせ</a>
   </nav>
 
+  <main>
+    <h1>検索結果</h1>
+    <div id="result" class="result-info"></div>
+    <div id="resultList" class="result-list"></div>
+  </main>
+
   <footer>
     <p>© 2025 狭間書房</p>
   </footer>
 
-  <script>
-    // 🔹 検索処理（そのまま）
+    <script>
+    // 🔹 検索対象データ
+    const pages = [
+      { name: "社員名簿", url: "https://hazamashobo.github.io/meibo2/index.html" },
+      { name: "マイページ", url: "https://hazamashobo.github.io/mypage/index.html" },
+      { name: "桐須瑛人", url: "https://hazamashobo.github.io/kirisu/index.html" },
+      { name: "薮翔子", url: "https://hazamashobo.github.io/yabu/index.html" },
+      { name: "安藤玲香", url: "https://hazamashobo.github.io/ando/index.html" },
+      { name: "立城純平", url: "https://hazamashobo.github.io/tateshiro/index.html" },
+      { name: "佐久間大晴", url: "https://hazamashobo.github.io/sakuma/index.html" },
+      { name: "鳥羽舞", url: "https://hazamashobo.github.io/toba/index.html" },
+      { name: "大渕航也", url: "https://hazamashobo.github.io/obuti/index.html" },
+      { name: "外山昴", url: "https://hazamashobo.github.io/toyama/index.html" },
+      { name: "福井里帆", url: "https://hazamashobo.github.io/hukui/index.html" },
+      { name: "赤羽義人", url: "https://hazamashobo.github.io/akahane/index.html" },
+      { name: "湯田伊織", url: "https://hazamashobo.github.io/yuda/index.html" },
+      { name: "下野凛", url: "https://hazamashobo.github.io/shimono/index.html" },
+      { name: "堀北大樹", url: "https://hazamashobo.github.io/horikita/index.html" },
+      { name: "アルゴダの丘", url: "https://hazamashobo.github.io/argoda/index.html" }
+    ];
+
+    // 🔹 クエリパラメータ取得
+    const params = new URLSearchParams(window.location.search);
+    const rawQuery = params.get("q") || "";
+    const query = rawQuery.trim();
+
+    function normalizeForCompare(s) {
+      return s.replace(/[\s\u3000]/g, "");
+    }
+
+    const resultDiv = document.getElementById("result");
+    const resultList = document.getElementById("resultList");
+
+    if (!query) {
+      resultDiv.textContent = "検索キーワードを入力してください。";
+    } else {
+      const normalizedQuery = normalizeForCompare(query);
+
+      let hits = pages.filter(p => normalizeForCompare(p.name) === normalizedQuery);
+
+      // 特例：「福井里帆」の場合は2件ヒットさせる
+      if (normalizedQuery === "福井里帆") {
+        hits = [
+          { name: "福井里帆_個人情報", url: "https://hazamashobo.github.io/hukui/index.html" },
+          { name: "マイページについて", url: "https://hazamashobo.github.io/aboutmypage/index.html" }
+        ];
+      }
+
+      if (hits.length > 0) {
+        resultDiv.innerHTML = `${hits.length}件ヒットしました。`;
+        hits.forEach(p => {
+          const div = document.createElement("div");
+          div.className = "result-item";
+          div.innerHTML = `<a href="${p.url}">${p.name}</a>`;
+          resultList.appendChild(div);
+        });
+      } else {
+        resultDiv.textContent = "データが見つかりません。キーワードを変えてお試しください。";
+      }
+    }
   </script>
 </body>
 </html>
