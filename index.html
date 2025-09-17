@@ -18,9 +18,14 @@ html, body {
 main {
   flex: 1; /* フッターを下に押す */
   max-width: 1000px;
-  margin: 2em auto;
-  padding: 0 1em;
+  margin: 2em 0; /* 左右の自動マージンを削除 */
+  padding: 0 2em; /* 左右のパディングを増加 */
   text-align: left; /* 本文を左寄せ */
+}
+
+main h1 {
+  text-align: left; /* メインタイトルも左寄せ */
+  margin-bottom: 1em;
 }
 
 /* ヘッダー */
@@ -103,7 +108,7 @@ nav a:hover {
 }
 .result-list {
   max-width: 700px;
-  margin: 0 auto;
+  margin: 0; /* 左詰めのため中央揃えを削除 */
   text-align: left;
 }
 .result-item {
@@ -225,6 +230,9 @@ footer {
         resultDiv.textContent = "データが見つかりません。キーワードを変えてお試しください。";
       }
     }
+  </script>
+</body>
+</html>
   </script>
 </body>
 </html>
