@@ -346,87 +346,151 @@
     <p>© 2025 狭間書房</p>
   </footer>
 
-  <script>
-    // 🔹 検索対象データ
-    const pages = [
-      { name: "社員名簿", url: "https://hazamashobo.github.io/meibo2/index.html" },
-      { name: "マイページ", url: "https://hazamashobo.github.io/mypage/index.html" },
-      { name: "桐須瑛人", url: "https://hazamashobo.github.io/kirisu/index.html" },
-      { name: "kirisueito", url: "https://hazamashobo.github.io/kirisu/index.html" },
-      { name: "薮翔子", url: "https://hazamashobo.github.io/yabu/index.html" },
-      { name: "yabushouko", url: "https://hazamashobo.github.io/yabu/index.html" },
-      { name: "鳥羽舞", url: "https://hazamashobo.github.io/toba/index.html" },
-      { name: "tobamai", url: "https://hazamashobo.github.io/toba/index.html" },
-      { name: "立城順平", url: "https://hazamashobo.github.io/tateshiro/index.html" },
-      { name: "tateshirojyunnpei", url: "https://hazamashobo.github.io/tateshiro/index.html" },
-      { name: "佐久間大晴", url: "https://hazamashobo.github.io/sakuma/index.html" },
-      { name: "sakumataisei", url: "https://hazamashobo.github.io/sakuma/index.html" },
-      { name: "安藤玲香", url: "https://hazamashobo.github.io/obuchi/index.html" },
-      { name: "andoureika", url: "https://hazamashobo.github.io/obuchi/index.html" },
-      { name: "大渕航也", url: "https://hazamashobo.github.io/ando/index.html" },
-      { name: "oobuchikouya", url: "https://hazamashobo.github.io/ando/index.html" },
-      { name: "外山昴", url: "https://hazamashobo.github.io/toyama/index.html" },
-      { name: "toyamasubaru", url: "https://hazamashobo.github.io/toyama/index.html" },
-      { name: "福井里帆", url: "https://hazamashobo.github.io/hukui/index.html" },
-      { name: "fukuiriho", url: "https://hazamashobo.github.io/hukui/index.html" },
-      { name: "湯田伊織", url: "https://hazamashobo.github.io/yuda/index.html" },
-      { name: "yudaiori", url: "https://hazamashobo.github.io/yuda/index.html" },
-      { name: "赤羽義人", url: "https://hazamashobo.github.io/akahane/index.html" },
-      { name: "akahaneyoshito", url: "https://hazamashobo.github.io/akahane/index.html" },
-      { name: "下野凛", url: "https://hazamashobo.github.io/shimono/index.html" },
-      { name: "shimonorin", url: "https://hazamashobo.github.io/shimono/index.html" },
-      { name: "堀北大樹", url: "https://hazamashobo.github.io/horikita/index.html" },
-      { name: "horikitadaiki", url: "https://hazamashobo.github.io/horikita/index.html" },
-      { name: "ゴルゴタの丘", url: "https://hazamashobo.github.io/argoda/index.html" },
-      { name: "ゴルゴダの丘", url: "https://hazamashobo.github.io/argoda/index.html" },
-      { name: "光輪", url: "https://hazamashobo.github.io/books/index.html" },
-      { name: "ニンブス", url: "https://hazamashobo.github.io/books/index.html" },
-      { name: "光背", url: "https://hazamashobo.github.io/books/index.html" },
-      { name: "ハロー", url: "https://hazamashobo.github.io/books/index.html" },
-      { name: "輪光", url: "https://hazamashobo.github.io/books/index.html" },
-      { name: "円光", url: "https://hazamashobo.github.io/books/index.html" },
-      { name: "後光", url: "https://hazamashobo.github.io/books/index.html" },
-    ];
+<script>
+  // 🔹 検索対象データ（表示名＝漢字、keywords＝検索用）
+  const pages = [
+    {
+      display: "社員名簿",
+      keywords: ["社員名簿", "meibo"],
+      url: "https://hazamashobo.github.io/meibo2/index.html"
+    },
+    {
+      display: "マイページ",
+      keywords: ["マイページ", "mypage"],
+      url: "https://hazamashobo.github.io/mypage/index.html"
+    },
 
-    // 🔹 クエリパラメータ取得
-    const params = new URLSearchParams(window.location.search);
-    const rawQuery = params.get("q") || "";
-    const query = rawQuery.trim();
+    {
+      display: "桐須瑛人",
+      keywords: ["桐須瑛人", "kirisueito", "kirisu"],
+      url: "https://hazamashobo.github.io/kirisu/index.html"
+    },
+    {
+      display: "薮翔子",
+      keywords: ["薮翔子", "yabushouko", "yabu"],
+      url: "https://hazamashobo.github.io/yabu/index.html"
+    },
+    {
+      display: "鳥羽舞",
+      keywords: ["鳥羽舞", "tobamai", "toba"],
+      url: "https://hazamashobo.github.io/toba/index.html"
+    },
+    {
+      display: "立城順平",
+      keywords: ["立城順平", "tateshirojunpei", "tateshiro"],
+      url: "https://hazamashobo.github.io/tateshiro/index.html"
+    },
+    {
+      display: "佐久間大晴",
+      keywords: ["佐久間大晴", "sakumataisei", "sakuma"],
+      url: "https://hazamashobo.github.io/sakuma/index.html"
+    },
+    {
+      display: "安藤玲香",
+      keywords: ["安藤玲香", "andoureika", "ando"],
+      url: "https://hazamashobo.github.io/obuchi/index.html"
+    },
+    {
+      display: "大渕航也",
+      keywords: ["大渕航也", "oobuchikouya", "obuchi"],
+      url: "https://hazamashobo.github.io/ando/index.html"
+    },
+    {
+      display: "外山昴",
+      keywords: ["外山昴", "toyamasubaru", "toyama"],
+      url: "https://hazamashobo.github.io/toyama/index.html"
+    },
+    {
+      display: "福井里帆",
+      keywords: ["福井里帆", "fukuiriho", "fukui"],
+      url: "https://hazamashobo.github.io/hukui/index.html"
+    },
+    {
+      display: "湯田伊織",
+      keywords: ["湯田伊織", "yudaiori", "yuda"],
+      url: "https://hazamashobo.github.io/yuda/index.html"
+    },
+    {
+      display: "赤羽義人",
+      keywords: ["赤羽義人", "akahaneyoshito", "akahane"],
+      url: "https://hazamashobo.github.io/akahane/index.html"
+    },
+    {
+      display: "下野凛",
+      keywords: ["下野凛", "shimonorin", "shimono"],
+      url: "https://hazamashobo.github.io/shimono/index.html"
+    },
+    {
+      display: "堀北大樹",
+      keywords: ["堀北大樹", "horikitadaiki", "horikita"],
+      url: "https://hazamashobo.github.io/horikita/index.html"
+    },
 
-    function normalizeForCompare(s) {
-      return s.replace(/[\s\u3000]/g, "");
+    {
+      display: "ゴルゴタの丘",
+      keywords: ["ゴルゴタの丘", "ゴルゴダの丘", "argoda", "golgotha"],
+      url: "https://hazamashobo.github.io/argoda/index.html"
+    },
+    {
+      display: "光輪",
+      keywords: ["光輪", "nimbus", "halo"],
+      url: "https://hazamashobo.github.io/books/index.html"
+    },
+    {
+      display: "ニンブス",
+      keywords: ["ニンブス", "nimbus"],
+      url: "https://hazamashobo.github.io/books/index.html"
+    },
+    {
+      display: "光背",
+      keywords: ["光背", "halo"],
+      url: "https://hazamashobo.github.io/books/index.html"
+    },
+    {
+      display: "後光",
+      keywords: ["後光", "goko", "halo"],
+      url: "https://hazamashobo.github.io/books/index.html"
     }
+  ];
 
-    const resultDiv = document.getElementById("result");
-    const resultList = document.getElementById("resultList");
+  // 🔹 クエリ取得
+  const params = new URLSearchParams(window.location.search);
+  const rawQuery = params.get("q") || "";
+  const query = rawQuery.trim();
 
-    if (!query) {
-      resultDiv.textContent = "検索キーワードを入力してください。";
+  function normalize(s) {
+    return s.toLowerCase().replace(/[\s\u3000]/g, "");
+  }
+
+  const resultDiv = document.getElementById("result");
+  const resultList = document.getElementById("resultList");
+
+  if (!query) {
+    resultDiv.textContent = "検索キーワードを入力してください。";
+  } else {
+    const nq = normalize(query);
+
+    const hits = pages.filter(p =>
+      p.keywords.some(k =>
+        normalize(k).includes(nq)
+      )
+    );
+
+    if (hits.length > 0) {
+      resultDiv.textContent = `${hits.length}件ヒットしました。`;
+
+      hits.forEach(p => {
+        const div = document.createElement("div");
+        div.className = "result-item";
+        div.innerHTML = `<a href="${p.url}">${p.display}</a>`;
+        resultList.appendChild(div);
+      });
     } else {
-      const normalizedQuery = normalizeForCompare(query);
-
-      let hits = pages.filter(p => normalizeForCompare(p.name) === normalizedQuery);
-
-      // 特例：「福井里帆」の場合は2件ヒットさせる
-      if (normalizedQuery === "福井里帆") {
-        hits = [
-          { name: "福井里帆", url: "https://hazamashobo.github.io/hukui/index.html" },
-          { name: "マイページについて", url: "https://hazamashobo.github.io/aboutmypage/index.html" }
-        ];
-      }
-
-      if (hits.length > 0) {
-        resultDiv.innerHTML = `${hits.length}件ヒットしました。`;
-        hits.forEach(p => {
-          const div = document.createElement("div");
-          div.className = "result-item";
-          div.innerHTML = `<a href="${p.url}">${p.name}</a>`;
-          resultList.appendChild(div);
-        });
-      } else {
-        resultDiv.textContent = "データが見つかりません。キーワードを変えてお試しください。";
-      }
+      resultDiv.textContent =
+        "データが見つかりません。キーワードを変えてお試しください。";
     }
-  </script>
+  }
+</script>
+
 </body>
 </html>
